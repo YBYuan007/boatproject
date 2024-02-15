@@ -23,14 +23,18 @@
         <lightning-datatable  
           key-field="id"
           data={boats}
+          show-row-number-column
+          row-number-offset={rowOffset}
+          suppress-bottom-bar
+          onsave={handleSave}
+          draft-values={draftValues}
           columns={columns}>
         </lightning-datatable>
       </div>
-      
     </lightning-tab>
 
     <lightning-tab label="Boat Near Me"> 
-
+      
     </lightning-tab>
 
 

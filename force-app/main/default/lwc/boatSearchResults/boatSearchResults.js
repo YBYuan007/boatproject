@@ -1,5 +1,6 @@
 import { LightningElement, wire, api } from 'lwc';
 import getBoats from "@salesforce/apex/BoatDataService.getBoats";
+import updateBoatList from "@salesforce/apex/BoatDataService.updateBoatList";
 import {publish, MessageContext} from 'lightning/messageService'; 
 import BOATMC from '@salesforce/messageChannel/Boat_Message__c'; 
 
@@ -9,11 +10,21 @@ const SUCCESS_VARIANT     = 'success';
 const ERROR_TITLE   = 'Error';
 const ERROR_VARIANT = 'error';
 
+const columns = [
+  { label: 'Name', fieldName: 'Name' },
+  { label: 'Length', fieldName: 'Length__c' },
+  { label: 'Price', fieldName: 'Price__c' },
+  { label: 'Description', fieldName: 'Description__c'}
+];
+
 export default class BoatSearchResults extends LightningElement {
-  @api boatTypeId; 
   selectedBoatId;
+  columns=columns;
+  @api boatTypeId = ''; 
   boats;
-  columns=[];
+  isLoading=false;
+  rowOffset = 0;
+  draftValues = [];
 
   @wire(MessageContext)
   messageContext;
@@ -27,6 +38,15 @@ export default class BoatSearchResults extends LightningElement {
       console.log('get wried error', error); 
     }
   };
+
+  // public function that updates the existing boatTypeId property
+  // uses notifyLoading
+  searchBoats(boatTypeId) { }
+  
+  // this public function must refresh the boats asynchronously
+  // uses notifyLoading
+  refresh() { }
+
 
   // this function must update selectedBoatId and call sendMessageService
   updateSelectedTile(evt) {
@@ -43,5 +63,16 @@ export default class BoatSearchResults extends LightningElement {
     publish(this.messageContext, BOATMC, payload);
   }
 
-
+  handleSave(event) {
+    // notify loading
+    console.log('event.detail.draftValues; ' ,event.detail.draftValues);
+    this.updatedFields = event.detail.draftValues;
+    // Update the records via Apex
+    updateBoatList({data: updatedFields})
+    .then((result) => {console.log('data received from the backend: ', result);})
+    .catch(error => {})
+    .finally(() => {});
+  }
+  
+  notifyLoading(isLoading) { }
 }
