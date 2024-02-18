@@ -4,6 +4,7 @@ import updateBoatList from "@salesforce/apex/BoatDataService.updateBoatList";
 import {publish, MessageContext} from 'lightning/messageService'; 
 import BOATMC from '@salesforce/messageChannel/Boat_Message__c'; 
 import {refreshApex} from '@salesforce/apex';
+import {ShowToastEvent} from 'lightning/platformShowToastEvent'; 
 
 const SUCCESS_TITLE ='Success';
 const MESSAGE_SHIP_IT = 'Ship it!';
@@ -12,10 +13,10 @@ const ERROR_TITLE = 'Error';
 const ERROR_VARIANT = 'error';
 
 const columns = [
-  { label: 'Name', fieldName: 'Name' },
-  { label: 'Length', fieldName: 'Length__c' },
-  { label: 'Price', fieldName: 'Price__c' },
-  { label: 'Description', fieldName: 'Description__c'}
+  { label: 'Name', fieldName: 'Name',  editable: true},
+  { label: 'Length', fieldName: 'Length__c',  editable: true},
+  { label: 'Price', fieldName: 'Price__c',  editable: true},
+  { label: 'Description', fieldName: 'Description__c',  editable: true}
 ];
 
 export default class BoatSearchResults extends LightningElement {
@@ -55,7 +56,7 @@ export default class BoatSearchResults extends LightningElement {
   @api
   async refresh() {
       this.isLoading = true; 
-      notifyLoading(this.isLoading);
+      this.notifyLoading(this.isLoading);
 
       await refreshApex(this.boats); 
       this.isLoading=false; 
@@ -91,15 +92,41 @@ export default class BoatSearchResults extends LightningElement {
     publish(this.messageContext, BOATMC, payload);
   }
 
+    // The handleSave method must save the changes in the Boat Editor
+  // passing the updated fields from draftValues to the 
+  // Apex method updateBoatList(Object data).
+  // Show a toast message with the title
+  // clear lightning-datatable draft values
+
   handleSave(event) {
-    // notify loading
+
     console.log('event.detail.draftValues; ', event.detail.draftValues);
-    this.updatedFields = event.detail.draftValues;
-    // Update the records via Apex
-    updateBoatList({data: updatedFields})
-    .then((result) => {console.log('data received from the backend: ', result);})
-    .catch(error => {})
-    .finally(() => {});
+    this.updatedFields = event.detail.draftValues; 
+
+    // // Update the records via Apex
+    updateBoatList({data: this.updatedFields})
+    .then((result) => {
+      console.log('data received from the backend: ', result);
+      const toastEvent = new ShowToastEvent({
+        title: SUCCESS_TITLE, 
+        variant: SUCCESS_VARIANT, 
+        message: MESSAGE_SHIP_IT
+      }); 
+      this.dispatchEvent(toastEvent);
+      this.draftValues = [];
+      return this.refresh();
+    })
+    .catch(error => {
+      const toastEvent = new ShowToastEvent({
+        title: ERROR_TITLE, 
+        variant: ERROR_VARIANT,
+        message: error.message
+      }); 
+      this.dispatchEvent(toastEvent);
+    })
+    .finally(() => {
+
+    });
   }
 
   

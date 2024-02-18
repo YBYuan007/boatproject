@@ -22,11 +22,10 @@
     <lightning-tab label="Boat Editor"> 
       <div slds-scrollable_y> 
         <lightning-datatable  
-          key-field="id"
+          key-field="Id"
           data={boats}
           show-row-number-column
           row-number-offset={rowOffset}
-          suppress-bottom-bar
           onsave={handleSave}
           draft-values={draftValues}
           columns={columns}>
