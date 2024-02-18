@@ -2,14 +2,15 @@
   <lightning-tabset variant="scoped">
     <lightning-tab label="Gallary"> 
       <div slds-scrollable_y> 
-        <lightning-layout padding="around-small">
+        <lightning-layout padding="around-small" class="slds-grid slds-wrap" >
           
-            <template for:each={boats} for:item="boat">
-              <lightning-layout-item  key={boat.Id}  class="custom-box slds-box slds-p-around_medium slds-text-align_center">
-                <c-boat-tile
+            <template for:each={boats} for:item="boat" >
+              <lightning-layout-item   key={boat.Id}  class="custom-box slds-box slds-p-around_medium slds-text-align_center slds-col slds-size_3-of-12">
+                <c-boat-tile 
                     key={boat.Id} 
                     boat={boat}
-                    onboatselect={updateSelectedTile}>
+                    selected-boat-id={selectedBoatId}
+                    onboatselect={updateSelectedTile} >
                 </c-boat-tile>
               </lightning-layout-item>
             </template>

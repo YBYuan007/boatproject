@@ -4,18 +4,22 @@ public with sharing class BoatDataService {
         List<BoatType__c> boatTypesMap= new  List<BoatType__c> ([SELECT id, name FROM BoatType__c]); 
         return boatTypesMap;
     }
-
+    
     @AuraEnabled(cacheable = true)
     public static List<Boat__c> getBoats(String boatTypeId) {
-        List<Boat__c> selectedBoatList =  new List<Boat__c>();
-        if(boatTypeId == '' ) {
-            selectedBoatList = [SELECT id, Boat_Image__c, Contact__r.name, Price__c, Length__c, BoatType__r.name, name, Description__c FROM Boat__c]; 
-        } else {
-            selectedBoatList = [SELECT id, Boat_Image__c, Contact__r.name, Price__c, Length__c, BoatType__r.name, name, Description__c FROM Boat__c WHERE BoatType__c = :boatTypeId];
+        system.debug('going through backend: ' + boatTypeId);
+        String query = 'SELECT ' 
+                        + 'id, Boat_Image__c, Contact__r.name, Price__c, Length__c, Picture__c, '
+                        + 'BoatType__r.name, name, Description__c '
+                        + 'FROM Boat__c'; 
+        if(String.isNotBlank(boatTypeId)) {
+            query += ' WHERE BoatType__c = :boatTypeId ';
         }
-        return selectedBoatList;
+        system.debug('what is query: ' + query); 
+        return database.query(query);
+        // return new List<Boat__c>();
     }
-
+    
     @AuraEnabled(cacheable=true)
     public static string updateBoatList(Object data){  
         List<Boat__c> boatsForUpdate = (List<Boat__c>) JSON.deserialize(
