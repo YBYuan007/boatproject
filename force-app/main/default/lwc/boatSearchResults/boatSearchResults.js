@@ -24,7 +24,7 @@ export default class BoatSearchResults extends LightningElement {
   columns=columns;
   @api boatTypeId; 
   @track boats;
-  isLoading=true;
+  isLoading=false;
   rowOffset = 0;
   draftValues = [];
 

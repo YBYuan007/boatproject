@@ -1,11 +1,11 @@
 <template>
   <lightning-tabset variant="scoped">
     <lightning-tab label="Gallary"> 
-      <div slds-scrollable_y> 
-        <lightning-layout padding="around-small" class="slds-grid slds-wrap" >
+      <div class="slds-scrollable_y" style="height: 600px;"  > 
+        <lightning-layout padding="around-small" class="slds-grid slds-wrap" horizontal-align="center"  multiple-rows>
           
             <template for:each={boats} for:item="boat" >
-              <lightning-layout-item   key={boat.Id}  class="custom-box slds-box slds-p-around_medium slds-text-align_center slds-col slds-size_3-of-12">
+              <lightning-layout-item   key={boat.Id}  class="custom-box slds-p-around_medium  slds-col slds-size_3-of-12">
                 <c-boat-tile 
                     key={boat.Id} 
                     boat={boat}
@@ -19,9 +19,9 @@
       </div>
     </lightning-tab>
 
-    <lightning-tab label="Boat Editor"> 
-      <div slds-scrollable_y> 
-        <lightning-datatable  
+    <lightning-tab label="Boat Editor" > 
+      <div  class="slds-scrollable_y" style="height: 400px;" > 
+        <lightning-datatable 
           key-field="Id"
           data={boats}
           show-row-number-column
