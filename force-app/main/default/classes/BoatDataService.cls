@@ -30,14 +30,15 @@ public with sharing class BoatDataService {
         return 'Success: boats updated successfully';
     }
     
-    // @AuraEnabled
-    // public static string getBoatsByLocation(String boatTypeId, String latitude, String longitude){
-    //     try {
+    @AuraEnabled(cacheable = true)
+    public static List<Boat__c>  getBoatsByLocation(String boatTypeId, String userLatitude, String userLongitude){
+        try {
+            return new List<Boat__c>();
             
-    //     } catch (Exception e) {
-    //         throw new AuraHandledException(e.getMessage());
-    //     }
-    // }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
     // public static List<Boat__c> getSimilarBoats(String boatTypeId) {
     //     List<Boat__c> selectedBoatList = [SELECT id, Boat_Image__c, Contact__r.name, Price__c, 	Length__c, BoatType__r.name,  name FROM 	Boat__c WHERE 	BoatType__c = :boatTypeId];
