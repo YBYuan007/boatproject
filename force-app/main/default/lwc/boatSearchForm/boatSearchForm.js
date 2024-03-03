@@ -8,7 +8,6 @@ export default class BoatSearchForm extends LightningElement {
   searchOptions = []; 
   value="";
 
-  @api boatTypeId;
 
   @wire(getBoatTypes)
   boatTypes({data, error}){

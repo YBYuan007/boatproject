@@ -1,7 +1,13 @@
 <template>
-  <lightning-card>
-    map map 
-    <!-- <lightning-map> </lightning-map> -->
+  <lightning-card class="slds-is-relative" >
+    <!-- The template and lightning-spinner goes here -->
+    <template lwc:if={isLoading}>
+      <!-- property: isLoading; disappear when the error occurs or when the mapMarkers / wired boats get loaded -->
+      <lightning-spinner alternative-text="Loading" variant="brand" size="xx-small"></lightning-spinner>
+    </template>
+    <template lwc:else> 
+      <lightning-map map-markers={mapMarkers}> </lightning-map>
+      <div slot="footer">Top 10 Only!</div>
+    </template>
   </lightning-card>
-    
 </template>

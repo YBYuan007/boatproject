@@ -43,13 +43,14 @@ export default class BoatSearchResults extends LightningElement {
 
   // public function that updates the existing boatTypeId property
   // uses notifyLoading
-  @api
+  /* @api
   searchBoats(boatTypeId) {
     console.log('child boatTypeId: ' , boatTypeId ); 
     this.isLoading=true;
     this.notifyLoading(this.isLoading);
     this.boatTypeId=boatTypeId;
   }
+  */
   
   // this public function must refresh the boats asynchronously
   // uses notifyLoading
@@ -61,7 +62,6 @@ export default class BoatSearchResults extends LightningElement {
       await refreshApex(this.boats); 
       this.isLoading=false; 
       this.notifyLoading(this.isLoading);
-
   }
 
   notifyLoading(isLoading) {

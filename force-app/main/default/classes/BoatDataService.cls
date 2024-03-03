@@ -31,19 +31,32 @@ public with sharing class BoatDataService {
     }
     
     @AuraEnabled(cacheable = true)
-    public static List<Boat__c>  getBoatsByLocation(String boatTypeId, String userLatitude, String userLongitude){
+    public static List<Boat__c> getBoatsByLocation(String boatTypeId, String userLatitude, String userLongitude){
         try {
-            return new List<Boat__c>();
-            
+            system.debug('going through the getBoatsByLocation /' + boatTypeId+ '/' + userLatitude +'/'+ userLongitude);
+            String query = 'SELECT ' 
+                        + 'Id, Geolocation__c, Name  '
+                        + 'FROM Boat__c '; 
+            if(String.isNotBlank(boatTypeId)) {
+                query += 'WHERE BoatType__c = :boatTypeId '; 
+            }
+            if(String.isNotBlank(userLatitude) && String.isNotBlank(userLongitude)){
+                Decimal la = decimal.valueOf(userLatitude);
+                Decimal lo = decimal.valueOf(userLongitude);
+                query += 'ORDER BY DISTANCE(Geolocation__c, GEOLOCATION(:la, :lo), \'mi\') '; 
+            }
+            query += 'LIMIT 10'; 
+            system.debug('what is query: ' + query); 
+            return database.query(query);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
     }
 
+
     // public static List<Boat__c> getSimilarBoats(String boatTypeId) {
     //     List<Boat__c> selectedBoatList = [SELECT id, Boat_Image__c, Contact__r.name, Price__c, 	Length__c, BoatType__r.name,  name FROM 	Boat__c WHERE 	BoatType__c = :boatTypeId];
     //     return selectedBoatList;
     // }
-
 
 }
