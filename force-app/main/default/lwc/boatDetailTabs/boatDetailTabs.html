@@ -1,0 +1,28 @@
+<template>
+    <template lwc:if={wiredRecord.data}> 
+      <lightning-tabset variant="scoped">
+        <lightning-tab label={label.labelDetails}> 
+          <lightning-card title={boatName} icon-name={detailsTabIconName}>
+            <lightning-button label={label.labelFullDetails} slot="actions" onclick={navigateToRecordViewPage}></lightning-button>
+          </lightning-card>
+        </lightning-tab>
+
+        <lightning-tab label={label.labelReviews}> Reviews1</lightning-tab>
+
+        <lightning-tab label={label.labelAddReview}> Add Review1 </lightning-tab>
+
+      </lightning-tabset>
+    </template>
+
+    <template lwc:else> 
+      <lightning-card > 
+        <span class="no-boat-height slds-align_absolute-center">
+          {label.labelPleaseSelectABoat}
+        </span>
+      </lightning-card>
+    </template>
+
+</template>
+
+
+
