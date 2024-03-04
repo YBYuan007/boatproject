@@ -38,9 +38,9 @@ export default class BoatDetailTabs extends NavigationMixin(LightningElement) {
 
   // Decide when to show or hide the icon
   // returns 'utility:anchor' or null
-  get detailsTabIconName() { 
+  get detailsTabIconName() {
     if(this.wiredRecord) {
-      console.log('show the anchor? ');
+      console.log('show the anchor? ', this.wiredRecord);
       return "utility:anchor"; 
     } else {
       return null; 
