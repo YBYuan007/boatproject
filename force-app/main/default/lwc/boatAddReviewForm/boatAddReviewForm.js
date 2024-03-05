@@ -60,10 +60,22 @@ export default class BoatAddReviewForm extends LightningElement {
     })
     this.dispatchEvent(toastMessage);
     // triggers a custom event called createreview
-    //this.handleReset();
+    this.dispatchEvent(new CustomEvent("createreview"));
+    this.handleReset(event);
   }
   
   // Clears form data upon submission
   // TODO: it must reset each lightning-input-field
-  handleReset() { }
+  handleReset(event) { 
+    console.log('handle reset ' );
+    const inputFields = this.template.querySelectorAll(
+      'lightning-input-field'
+    );
+    if (inputFields) {
+        inputFields.forEach(field => {
+            field.reset();
+        });
+    }
+    
+  }
 }
