@@ -1,6 +1,6 @@
 <template>
   <!-- lightning data service code -->
-  <lightning-record-edit-form object-api-name="BoatReview__c"  onsubmit={handleSubmit} > 
+  <lightning-record-edit-form object-api-name="BoatReview__c"  onsubmit={handleSubmit} onsuccess={handleSuccess}> 
     <lightning-layout multiple-rows vertical-align="start">
 
       <lightning-layout-item size="8" padding="horizontal-small">
@@ -32,7 +32,7 @@
     </lightning-layout>
 
     <div class="slds-align_absolute-center" style="margin-top: 5px">
-           <lightning-button class="slds-m-top_small" type="submit" label="Submit"  ></lightning-button>
+           <lightning-button class="slds-m-top_small" type="submit" label="Submit" icon-name="utility:save"   ></lightning-button>
     </div>
   </lightning-record-edit-form>
 
