@@ -52,6 +52,17 @@ public with sharing class BoatDataService {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled(cacheable = true)
+    public static List<BoatReview__c> getAllReviews(String boatId){
+        String query = 'SELECT ' 
+                        + 'Comment__c, Rating__c ';
+            if(String.isNotBlank(boatId)) {
+                query += 'WHERE Boat__c = :boatId '; 
+            }
+            system.debug('what is query: ' + query); 
+            return database.query(query);
+    }
+
 
 
     // public static List<Boat__c> getSimilarBoats(String boatTypeId) {
