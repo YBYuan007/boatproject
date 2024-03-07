@@ -1,11 +1,13 @@
 <template>
-  <!-- div for when there are no reviews available -->
-  <div>No reviews available</div>
-  <!-- div for when there are reviews available -->
-  <div>
-  <!-- insert spinner -->
+  <template lwc:if={reviewsToShow}> 
+    <p> there are boatReviews</p>
+    <div>
+    <template lwc:if={isLoading}> 
+      <lightning-spinner alternative-text="Loading" size="xx-small"></lightning-spinner>
+    </template>
+    <template lwc:else>
     <ul class="slds-feed__list">
-      <!-- start iteration -->
+      <template for:each={boatReviews} for:item="boatReview">
         <li class="slds-feed__item" key={boatReview.Id}>
           <article class="slds-post">
             <header class="slds-post__header slds-media">
@@ -32,6 +34,14 @@
           </article>
         </li>
       <!-- end iteration -->
+    </template>
     </ul>
+  </template>
   </div>
+</template>
+
+  <template lwc:else> 
+    <div>No reviews available</div>
+   </template>
+
 </template>

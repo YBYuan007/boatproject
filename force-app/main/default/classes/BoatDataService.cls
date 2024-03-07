@@ -54,13 +54,15 @@ public with sharing class BoatDataService {
     }
     @AuraEnabled(cacheable = true)
     public static List<BoatReview__c> getAllReviews(String boatId){
+        system.debug('going through backend - getAllReviews');
         String query = 'SELECT ' 
-                        + 'Comment__c, Rating__c ';
+                        + 'Comment__c, Rating__c '
+                        + 'FROM BoatReview__c ';
             if(String.isNotBlank(boatId)) {
                 query += 'WHERE Boat__c = :boatId '; 
             }
             system.debug('what is query: ' + query); 
-            return database.query(query);
+        return database.query(query);
     }
 
 
