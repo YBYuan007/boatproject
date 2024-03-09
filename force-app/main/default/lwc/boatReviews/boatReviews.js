@@ -26,8 +26,9 @@ export default class BoatReviews extends LightningElement {
   
   // Getter to determine if there are reviews to display
   get reviewsToShow() { 
-    console.log('reviewsToShow');
-    return this.boatId != null && this.boatId != undefined && this.boatReviews?.size>0;
+    console.log('get: reviewsToShow: ', this.boatReviews);
+    console.log('get: reviewsToShow: ', this.boatReviews?.length);
+    return this.boatId != null && this.boatId != undefined && this.boatReviews?.length>0;
   }
   
   // Public method to force a refresh of the reviews invoking getReviews
@@ -49,7 +50,7 @@ export default class BoatReviews extends LightningElement {
       this.isLoading = true;
       getAllReviews({boatId: this.boatId})
       .then((result)=> {
-        console.log('result: ' , result); 
+        console.log(' review result: ' , result); 
         this.boatReviews = result;
         this.isLoading=false;
       }).catch((error)=> {
