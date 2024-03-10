@@ -65,12 +65,18 @@ public with sharing class BoatDataService {
             system.debug('what is query: ' + query); 
         return database.query(query);
     }
-
-
-
-    // public static List<Boat__c> getSimilarBoats(String boatTypeId) {
-    //     List<Boat__c> selectedBoatList = [SELECT id, Boat_Image__c, Contact__r.name, Price__c, 	Length__c, BoatType__r.name,  name FROM 	Boat__c WHERE 	BoatType__c = :boatTypeId];
-    //     return selectedBoatList;
-    // }
+    @AuraEnabled(cacheable = true)
+    public static List<Boat__c> getSimilarBoats(String boatId, String similarBy) {
+        system.debug('going through backend getSimilarBoats');
+        
+        String query = 'SELECT Id, Name, Contact__r.Name, BoatType__r.Name, Length__c, Picture__c, Price__c, Boat_Image__c '
+                    + 'FROM Boat__c '; 
+        if(boatId != null && similarBy != null) {
+            String similarResult = 'SELECT :similarBy FROM Boat__c WHERE id = :boatId'; 
+            query += 'WHERE :similarBy = :similarResult ';
+        }
+        system.debug('what is query: ' + query);             
+       return Database.query(query);
+    }
 
 }
