@@ -56,7 +56,8 @@ public with sharing class BoatDataService {
     public static List<BoatReview__c> getAllReviews(String boatId){
         system.debug('going through backend - getAllReviews');
         String query = 'SELECT ' 
-                        + 'Comment__c, Rating__c '
+                        + 'Name, Comment__c, Rating__c, '
+                        + 'Createdby.SmallPhotoUrl, Createdby.Name, CreatedBy.CompanyName, CreatedDate  '
                         + 'FROM BoatReview__c ';
             if(String.isNotBlank(boatId)) {
                 query += 'WHERE Boat__c = :boatId '; 

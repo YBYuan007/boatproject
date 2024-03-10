@@ -1,8 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
+import { NavigationMixin } from "lightning/navigation";
 
 // imports
-export default class BoatReviews extends LightningElement {
+export default class BoatReviews extends  NavigationMixin(LightningElement) {
   // Private
   boatId;
   @track error;
@@ -63,5 +64,16 @@ export default class BoatReviews extends LightningElement {
   }
   
   // Helper method to use NavigationMixin to navigate to a given record on click
-  navigateToRecord(event) {  }
+  navigateToRecord(event) {
+    event.preventDefault();
+    console.log('navigateToRecord',event.target.dataset.recordId);
+    this[NavigationMixin.Navigate]({
+      type: "standard__recordPage",
+      attributes: {
+        recordId: event.target.dataset.recordId,
+        objectApiName: "User",
+        actionName: "view",
+      },
+    });
+  }
 }
